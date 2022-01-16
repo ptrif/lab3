@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/52873472de.js" crossorigin="anonymous"></script>
+    <title>Калькулятор</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+
+        }
+
+        body {
+            background-color:rgb(227, 250, 236) ;
+            background-image: radial-gradient(  #7e94db 3px, transparent 3px);
+            background-size: 50px 50px;
+
+        }
+
+        .calculator {
+            margin: 90px auto;
+            width: 370px;
+            height: 600px;
+            box-shadow: 0 9px 35px rgba(0, 0, 0, 15);
+        }
+
+        .header {
+            height: 100px;
+            padding-top: 35px;
+            padding-bottom: 25px;
+            padding-right: 30px;
+            padding-left: 30px;
+            background-color: rgb(219, 247, 255);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            text-align: right;
+        }
+
+        .result {
+            text-align: right;
+            background: transparent;
+            margin-top: 35px;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 60px;
+            color: #41485f;
+        }
+
+        .result::placeholder {
+            color: #41485f;
+        }
+
+
+
+        .main {
+            height: 500px;
+            display: table;
+        }
+
+        .btn {
+            width: 92.5px;
+            height: 89px;
+            padding: 38px;
+            font-size: 20px;
+            border: none;
+            background-image: linear-gradient(-68deg, #a1b9e4, #d3f8f6);
+            outline: none;
+
+        }
+
+        .btn-big {
+            width: 370px;
+            height: 89px;
+            padding: 30px;
+            border: none;
+            font-size: 35px;
+            background-color: #8974d6;
+            outline: none;
+            color: #fff;
+        }
+
+        .btn-symbol {
+            color: #fff;
+            width: 92.5px;
+            height: 89px;
+            padding: 38px;
+            font-size: 20px;
+            border: none;
+            background-color: #eb7742;
+        }
+
+        .btn:hover,
+        .btn-symbol:hover,
+        .btn-symbol:hover,
+        .btn-big:hover {
+            filter: brightness(90%);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+        <div class="header">
+
+            <input type="text" placeholder="0" class="result" id="accField" readonly>
+
+        </div>
+        <div class="main">
+            <button value = "0" onclick="getDigit(this.value)" class="btn">0</button>
+            <button value = "clear" onclick="clearField()" class="btn C">C</button>
+            <button value = "delete" onclick="deleteDigit()" class="btn del"><i class="fas fa-backspace"></i></button>
+            <button value = "/" onclick="getSign(this.value)" class="btn-symbol">/</button>
+            <button value = "7" onclick="getDigit(this.value)" class="btn">7</button>
+            <button value = "8" onclick="getDigit(this.value)" class="btn">8</button>
+            <button value = "9" onclick="getDigit(this.value)" class="btn">9</button>
+            <button value = "*" onclick="getSign(this.value)"  class="btn-symbol">x</button>
+            <button value = "4" onclick="getDigit(this.value)" class="btn">4</button>
+            <button value = "5" onclick="getDigit(this.value)" class="btn">5</button>
+            <button value = "6" onclick="getDigit(this.value)" class="btn">6</button>
+            <button value = "-" onclick="getSign(this.value)"  class="btn-symbol">-</button>
+            <button value = "1" onclick="getDigit(this.value)" class="btn">1</button>
+            <button value = "2" onclick="getDigit(this.value)" class="btn">2</button>
+            <button value = "3" onclick="getDigit(this.value)" class="btn">3</button>
+            <button value = "+" onclick="getSign(this.value)"  class="btn-symbol">+</button>
+            <button value="=" onclick="result()" class="btn-big ">=</button>
+
+        </div>
+    </div>
+
+    <script>
+        let num = 0;
+        let acc = 0;
+        let sign = "";
+ 
+        function showNum() {
+            document.getElementById("accField").value = num;
+        }
+        
+        function getDigit(d) {
+            num = num * 10 + parseInt(d);
+            showNum();
+        }
+
+        function getSign(s) {
+            if (getNum()) {
+                if (sign === "") {
+                    acc = parseInt(num);
+                    num = 0;
+                }
+                sign = s;
+            }
+        }
+
+        function getNum() {
+            num = document.getElementById("accField").value;
+            if (! /^-?\d+$/.test(num)) {
+                num = 0;
+                alert("Недопустимое значение");
+                return false;
+            } else {
+                num = parseInt(num);
+                return true;
+            }
+        }
+
+        function clearField() {
+            num = 0;
+            acc = 0;
+            sign = "";
+            showNum();
+        }
+
+        function deleteDigit() {
+            num = parseInt(num / 10);
+            showNum();
+        }
+
+        
+
+        function result() {
+            if (getNum()) {
+                switch (sign) {
+                    case "+":
+                        num = acc + num;
+                        break;
+                    case "-":
+                        num = acc - num;
+                        break;
+                    case "*":
+                        num = acc * num;
+                        break;
+                    case "/":
+                        num = Math.round(acc / num);
+                        break;
+                }
+                acc = 0;
+                sign = "";
+                showNum();
+            }
+        }  
+    </script>
+</body>
+
+</html>
